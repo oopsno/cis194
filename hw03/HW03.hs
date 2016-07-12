@@ -1,5 +1,7 @@
 module HW03 where
 
+import Foreign.Marshal.Utils ( fromBool )
+
 data Expression =
     Var String                   -- Variable
   | Val Int                      -- Integer literal
@@ -34,15 +36,27 @@ type State = String -> Int
 -- Exercise 1 -----------------------------------------
 
 extend :: State -> String -> Int -> State
-extend = undefined
+extend st key val x = if x == key then val else st x
 
 empty :: State
-empty = undefined
+empty = const 0
 
 -- Exercise 2 -----------------------------------------
 
 evalE :: State -> Expression -> Int
-evalE = undefined
+evalE st (Var key) = st key
+evalE st (Val val) = val
+evalE st (Op lhs bop rhs) = transBOP bop (evalE st lhs) (evalE st rhs)
+  where boolCast fn = curry $ fromBool . uncurry fn
+        transBOP Plus   = (+)
+        transBOP Minus  = (-)
+        transBOP Times  = (*)
+        transBOP Divide = div
+        transBOP Gt     = boolCast (>)
+        transBOP Ge     = boolCast (>=)
+        transBOP Lt     = boolCast (<)
+        transBOP Le     = boolCast (<=)
+        transBOP Eql    = boolCast (==)
 
 -- Exercise 3 -----------------------------------------
 
@@ -54,16 +68,34 @@ data DietStatement = DAssign String Expression
                      deriving (Show, Eq)
 
 desugar :: Statement -> DietStatement
-desugar = undefined
+desugar (Assign key expr) = DAssign key expr
+desugar (Incr key) = DAssign key (Op (Var key) Plus (Val 1))
+desugar (If cond tstmt fstmt) = DIf cond (desugar tstmt) (desugar fstmt)
+desugar (While cond stmt) = DWhile cond (desugar stmt)
+desugar (Sequence x xs) = DSequence (desugar x) (desugar xs)
+desugar (For init cond update stmt) =
+  DSequence (desugar init) (DWhile cond (DSequence (desugar stmt) (desugar update)))
+desugar Skip = DSkip
 
 
 -- Exercise 4 -----------------------------------------
 
 evalSimple :: State -> DietStatement -> State
-evalSimple = undefined
+evalSimple st (DAssign key expr) = extend st key $ evalE st expr
+evalSimple st (DIf cond ts fs) =
+  if evalE st cond /= 0
+    then evalSimple st ts
+    else evalSimple st fs
+evalSimple st w@(DWhile cond stmt) =
+  if evalE st cond /= 0
+    then let st' = evalSimple st stmt in seq st' (evalSimple st' w)
+    else st
+evalSimple st (DSequence x xs) =
+  let st' = evalSimple st x in seq st' (evalSimple st' xs)
+evalSimple st DSkip = st
 
 run :: State -> Statement -> State
-run = undefined
+run st stmt = evalSimple st $ desugar stmt
 
 -- Programs -------------------------------------------
 
