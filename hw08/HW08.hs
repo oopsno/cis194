@@ -77,22 +77,35 @@ material_implication = Conj dir1 dir2
 -- Exercise 1 -----------------------------------------
 
 disjunctive_syllogism :: (p \/ q) -> Not p -> q
-disjunctive_syllogism = admit
+disjunctive_syllogism (Left  p) np = absurd $ np p
+disjunctive_syllogism (Right q) _  = q
 
 -- Exercise 2 -----------------------------------------
 
 composition :: (p -> q) \/ (p -> r) -> p -> q \/ r
-composition = admit
+composition (Left  p_imp_q) p = Left  $ p_imp_q p
+composition (Right p_imp_r) p = Right $ p_imp_r p
 
 -- Exercise 3 -----------------------------------------
 
 transposition :: (p -> q) <-> (Not q -> Not p)
-transposition = admit
+transposition = Conj forward backward
+  -- (P -> Q)   -> (~Q -> ~P)
+  where forward = modus_tollens
+  -- (~Q -> ~P) -> (P -> Q) 
+        backward nq_imp_np =
+          let (Conj dd rr) = double_negation
+          in rr . modus_tollens nq_imp_np . dd
 
 -- Exercise 4 -----------------------------------------
 
 de_morgan :: Not (p \/ q) <-> (Not p /\ Not q)
-de_morgan = admit
+de_morgan = Conj forward backward
+  -- ~(P \/ Q)  -> (~P /\ ~Q)
+  where forward n_p_imp_q = (n_p_imp_q . Left) `Conj` (n_p_imp_q . Right)
+  -- (~P /\ ~Q) -> ~(P \/ Q)
+        backward (Conj np nq) (Left  p) = np p
+        backward (Conj np nq) (Right q) = nq q
 
 -- Natural Numbers ------------------------------------
 
