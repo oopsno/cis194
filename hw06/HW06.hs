@@ -91,5 +91,21 @@ main = print $ minMax $ sTake 1000000 $ rand 7666532
 
 -- Exercise 10 ----------------------------------------
 
+type FibMat = (Integer, Integer, Integer)
 fastFib :: Int -> Integer
-fastFib = undefined
+fastFib = pick . ($ unit) . go
+  where sqr :: FibMat -> FibMat
+        sqr (a, b, c) = let aa = a * a
+                            bb = b * b
+                            cc = c * c
+                            ab = a * b
+                            bc = b * c
+                        in aa `seq` bb `seq` cc `seq` ab `seq` bc `seq` (aa + bb, ab + bc, bb + cc)
+        mul (a, b, c) = let apb = a + b in apb `seq` (apb, a, b)
+        unit = (1, 1, 0)
+        go 0 = id
+        go 1 = id
+        go n = case n `rem` 2 of
+                   0 -> let n' = div n 2 in sqr . go n'
+                   1 -> let n' = (n - 1) `div` 2 in mul . sqr . go n'
+        pick (x, _, _) = x
