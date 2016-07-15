@@ -1,5 +1,5 @@
 {-# OPTIONS_GHC -Wall #-}
-module HW06 ( main ) where
+module HW06 ( main, fastFib ) where
 
 import Data.List
 import Data.Functor
@@ -106,6 +106,6 @@ fastFib = pick . ($ unit) . go
         go 0 = id
         go 1 = id
         go n = case n `rem` 2 of
-                   0 -> let n' = div n 2 in sqr . go n'
-                   1 -> let n' = (n - 1) `div` 2 in mul . sqr . go n'
+                 0 -> let n' = div n 2 in sqr . go n'
+                 1 -> let n' = (n - 1) `div` 2 in mul . sqr . go n'
         pick (x, _, _) = x
