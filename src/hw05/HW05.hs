@@ -3,11 +3,10 @@
 module HW05 where
 
 import Control.Monad
-import Data.ByteString.Lazy (ByteString)
+import Data.ByteString.Lazy ( ByteString )
 import Data.Bits
 import Data.List
-import Data.Map.Strict (Map)
-import System.Environment (getArgs)
+import Data.Map.Strict      ( Map )
 
 import qualified Data.ByteString.Lazy as BS
 import qualified Data.Map.Strict as Map
@@ -86,19 +85,3 @@ doEverything dog1 dog2 trans vict fids out = do
           let flow = getFlow ts       
           writeJSON out (undoTs flow ids)
           return (getCriminal flow)
-
-main :: IO ()
-main = do
-  args <- getArgs
-  crim <- 
-    case args of
-      dog1:dog2:trans:vict:ids:out:_ ->
-          doEverything dog1 dog2 trans vict ids out
-      _ -> doEverything "dog-original.jpg"
-                        "dog.jpg"
-                        "transactions.json"
-                        "victims.json"
-                        "new-ids.json"
-                        "new-transactions.json"
-  putStrLn crim
-
