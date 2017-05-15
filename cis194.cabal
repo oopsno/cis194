@@ -10,12 +10,31 @@ build-type:          Simple
 extra-source-files:  ChangeLog.md
 cabal-version:       >=1.10
 
+data-files:            data/dog-original.jpg
+                     , data/dog.jpg
+                     , data/transactions.json
+                     , data/victims.json
+                     , data/new-ids.json
+                     , data/new-transactions.json
+
 library
   hs-source-dirs:      src/framework
   exposed-modules:     CIS194.Testing
                      , CIS194.HUnit
   build-depends:       base        >= 4.9 && < 5
                      , HUnit       >= 1.5 && < 2
+  default-language:    Haskell2010
+
+executable hw05
+  main-is:             Main.hs
+  build-depends:       base        >= 4.9  && < 5
+                     , aeson       >= 1    && < 2
+                     , bytestring  >= 0.10 && < 1
+                     , containers  >= 0.5  && < 1
+  other-modules:       HW05
+                     , Parser
+                     , Paths_cis194
+  hs-source-dirs:      src/hw05
   default-language:    Haskell2010
   
 
@@ -56,4 +75,17 @@ test-suite homework-4
                      , cis194
   other-modules:       HW04
   hs-source-dirs:      src/hw04
+  default-language:    Haskell2010
+
+test-suite homework-5
+  type:                exitcode-stdio-1.0
+  main-is:             HW05Tests.hs
+  build-depends:       base        >= 4.9  && < 5
+                     , HUnit       >= 1.5  && < 2
+                     , aeson       >= 1    && < 2
+                     , bytestring  >= 0.10 && < 1
+                     , containers  >= 0.5  && < 1
+                     , cis194
+  other-modules:       HW05, Parser
+  hs-source-dirs:      src/hw05
   default-language:    Haskell2010
