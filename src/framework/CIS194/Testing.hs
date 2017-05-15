@@ -1,9 +1,11 @@
 {-# OPTIONS_GHC -Wall #-}
 {-# LANGUAGE ExistentialQuantification #-}
-module Testing where
 
-import Data.Maybe
+module CIS194.Testing where
+
 import Control.Arrow
+import Data.Maybe
+import System.Exit         ( exitSuccess, exitFailure )
 
 data Test    = forall a. Show a => Test String (a -> Bool) [a]
 data Failure = forall a. Show a => Fail String [a]
@@ -32,3 +34,9 @@ testF2 s f l = Test s (uncurry (==)) $ map (\(x, y, z) -> (f x y, z))  l
 testF3 :: (Show a, Show b, Show c, Show d, Eq d) => String -> (a -> b -> c -> d)
        -> [(a, b, c, d)] -> Test
 testF3 s f l = Test s (uncurry (==)) $ map (\(w, x, y, z) ->  (f w x y, z)) l
+
+runner :: [Test] -> IO ()
+runner tests = if (null failures) then success else fails
+  where failures = runTests tests
+        success  = exitSuccess
+        fails    = mapM_ print failures >> exitFailure

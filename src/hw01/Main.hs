@@ -1,13 +1,7 @@
 module Main where
 
-import System.Exit ( exitSuccess, exitFailure )
-
-import HW01Tests   ( allTests )
-import Testing     ( runTests )
+import HW01Tests        ( allTests )
+import CIS194.Testing   ( runner )
 
 main :: IO ()
-main = do
-  let failures = runTests allTests in
-    if length failures == 0
-        then exitSuccess
-        else mapM_ print failures >> exitFailure
+main = runner allTests

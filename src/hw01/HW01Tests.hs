@@ -5,7 +5,7 @@
 module HW01Tests where
 
 import HW01
-import Testing
+import CIS194.Testing
 
 -- Exercise 1 -----------------------------------------
 
