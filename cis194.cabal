@@ -89,3 +89,13 @@ test-suite homework-5
   other-modules:       HW05, Parser
   hs-source-dirs:      src/hw05
   default-language:    Haskell2010
+
+test-suite homework-6
+  type:                exitcode-stdio-1.0
+  main-is:             HW06Tests.hs
+  build-depends:       base        >= 4.9  && < 5
+                     , HUnit       >= 1.5  && < 2
+                     , cis194
+  other-modules:       HW06
+  hs-source-dirs:      src/hw06
+  default-language:    Haskell2010

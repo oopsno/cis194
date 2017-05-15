@@ -1,8 +1,7 @@
 {-# OPTIONS_GHC -Wall #-}
-module HW06 ( main, fastFib ) where
+module HW06 where
 
 import Data.List
-import Data.Functor
 
 -- Exercise 1 -----------------------------------------
 
@@ -79,12 +78,12 @@ minMaxSlow xs = Just (minimum xs, maximum xs)
 {- Total Memory in use: ~0.04 MB -}
 minMax :: [Int] -> Maybe (Int, Int)
 minMax [] = Nothing
-minMax (x:xs) = kernel x x xs
-  where kernel min max [] = Just (min, max)
-        kernel min max (x:xs) =
-          let min' = if min > x then x else min
-              max' = if max < x then x else max
-          in  min' `seq` max' `seq` kernel min' max' xs
+minMax (e:rest) = kernel e e rest
+  where kernel l r [] = Just (l, r)
+        kernel l r (x:xs) =
+          let l' = min x l
+              r' = max x r
+          in  l' `seq` r' `seq` kernel l' r' xs
 
 main :: IO ()
 main = print $ minMax $ sTake 1000000 $ rand 7666532
@@ -101,11 +100,11 @@ fastFib = pick . ($ unit) . go
                             ab = a * b
                             bc = b * c
                         in aa `seq` bb `seq` cc `seq` ab `seq` bc `seq` (aa + bb, ab + bc, bb + cc)
-        mul (a, b, c) = let apb = a + b in apb `seq` (apb, a, b)
+        mul (a, b, _) = let apb = a + b in apb `seq` (apb, a, b)
         unit = (1, 1, 0)
         go 0 = id
         go 1 = id
-        go n = case n `rem` 2 of
-                 0 -> let n' = div n 2 in sqr . go n'
-                 1 -> let n' = (n - 1) `div` 2 in mul . sqr . go n'
+        go n = if even n
+                 then let n' = div n 2 in sqr . go n'
+                 else let n' = (n - 1) `div` 2 in mul . sqr . go n'
         pick (x, _, _) = x
