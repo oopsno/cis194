@@ -26,7 +26,7 @@ instance (Eq a, Num a, Show a) => Show (Poly a) where
                    xn = case n of
                           1    -> ""
                           (-1) -> "-"
-                          _    -> show n ++ "*"
+                          _    -> show n
                in  xn ++ xi         
 
 -- Exercise 4 -----------------------------------------

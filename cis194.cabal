@@ -47,3 +47,13 @@ test-suite homework-3
   other-modules:       HW03, Fun
   hs-source-dirs:      src/hw03
   default-language:    Haskell2010
+
+test-suite homework-4
+  type:                exitcode-stdio-1.0
+  main-is:             HW04Tests.hs
+  build-depends:       base        >= 4.9 && < 5
+                     , HUnit       >= 1.5 && < 2
+                     , cis194
+  other-modules:       HW04
+  hs-source-dirs:      src/hw04
+  default-language:    Haskell2010
