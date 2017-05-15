@@ -24,28 +24,53 @@ ex1Tests = [ Test "lastDigit test" testLastDigit
 
 -- Exercise 2 -----------------------------------------
 
+testToRevDigits :: (Integer, [Integer]) -> Bool
+testToRevDigits (n, xs) = xs == toRevDigits n
+
 ex2Tests :: [Test]
-ex2Tests = []
+ex2Tests = [ Test "toRevDigits test" testToRevDigits
+             [(1234, [4, 3, 2, 1]), (0, []), (-17, [])]
+           ]
 
 -- Exercise 3 -----------------------------------------
 
+testDoubleEveryOther :: ([Integer], [Integer]) -> Bool
+testDoubleEveryOther (xs, ys) = doubleEveryOther xs == ys
+
 ex3Tests :: [Test]
-ex3Tests = []
+ex3Tests = [ Test "doubleEveryOther test" testDoubleEveryOther
+             [([4, 9, 5, 5], [4, 18, 5, 10]), ([0, 0], [0, 0])]
+           ]
 
 -- Exercise 4 -----------------------------------------
 
+testSumDigits :: ([Integer], Integer) -> Bool
+testSumDigits (xs, s) = sumDigits xs == s
+
 ex4Tests :: [Test]
-ex4Tests = []
+ex4Tests = [ Test "sumDigits test" testSumDigits
+             [([10, 5, 18, 4], 19)]
+           ]
 
 -- Exercise 5 -----------------------------------------
 
+testLuhn :: (Integer, Bool) -> Bool
+testLuhn (x, y) = luhn x == y
+
 ex5Tests :: [Test]
-ex5Tests = []
+ex5Tests = [ Test "luhn test" testLuhn 
+             [(5594589764218858, True), (1234567898765432, False)]
+           ]
 
 -- Exercise 6 -----------------------------------------
 
+testHanoi :: (Integer, Peg, Peg, Peg, [(Peg, Peg)]) -> Bool
+testHanoi (stub, a, b, c, result) = hanoi stub a b c == result
+
 ex6Tests :: [Test]
-ex6Tests = []
+ex6Tests = [ Test "hanoi test" testHanoi
+             [(2, "a", "b", "c", [("a","c"), ("a","b"), ("c","b")])]
+           ]
 
 -- All Tests ------------------------------------------
 

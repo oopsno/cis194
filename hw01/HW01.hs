@@ -22,7 +22,7 @@ toRevDigits n | n <= 0 = []
 -- Double every second number in a list starting on the left.
 doubleEveryOther :: [Integer] -> [Integer]
 doubleEveryOther []       = []
-doubleEveryOther (x:[])   = [x]
+doubleEveryOther [x]      = [x]
 doubleEveryOther (x:y:xs) = x:y+y:doubleEveryOther xs
 
 -- Exercise 4 -----------------------------------------
@@ -36,7 +36,7 @@ sumDigits = sum . foldMap toRevDigits
 
 -- Validate a credit card number using the above functions.
 luhn :: Integer -> Bool
-luhn = (== 0) . flip rem 9 . sumDigits . doubleEveryOther . toRevDigits
+luhn = (== 0) . flip rem 10 . sumDigits . doubleEveryOther . toRevDigits
 
 -- Exercise 6 -----------------------------------------
 
