@@ -1,101 +1,45 @@
-name:                cis194
-version:             0.1.0.0
-synopsis:            CIS194 homeworks
-homepage:            https://github.com/oopsno/cis194
-license:             GPL-3
-license-file:        LICENSE
-author:              Yufei Liu
-maintainer:          yufeiliu94@gmail.com
-build-type:          Simple
-extra-source-files:  ChangeLog.md
-cabal-version:       >=1.10
+cabal-version:      3.0
+name:               cis194
+version:            0.1.0.0
+synopsis:           Toy code for CIS194
 
-data-files:            data/dog-original.jpg
-                     , data/dog.jpg
-                     , data/transactions.json
-                     , data/victims.json
-                     , data/new-ids.json
-                     , data/new-transactions.json
+-- A longer description of the package.
+-- description:
+homepage:           https://github.com/oopsno/cis194
+
+-- A URL where users can report bugs.
+-- bug-reports:
+license:            MIT
+license-file:       LICENSE
+author:             Liu Yufei
+maintainer:         yufeiliu94@gmail.com
+
+-- A copyright notice.
+-- copyright:
+-- category:
+extra-source-files:
+    README.md
+    CHANGELOG.md
 
 library
-  hs-source-dirs:      src/framework
-  exposed-modules:     CIS194.Testing
-                     , CIS194.HUnit
-  build-depends:       base        >= 4.9 && < 5
-                     , HUnit       >= 1.5 && < 2
-  default-language:    Haskell2010
+    exposed-modules:  Basics
 
-executable hw05
-  main-is:             Main.hs
-  build-depends:       base        >= 4.9  && < 5
-                     , aeson       >= 1    && < 2
-                     , bytestring  >= 0.10 && < 1
-                     , containers  >= 0.5  && < 1
-  other-modules:       HW05
-                     , Parser
-                     , Paths_cis194
-  hs-source-dirs:      src/hw05
-  default-language:    Haskell2010
-  
+    -- Modules included in this library but not exported.
+    -- other-modules:
 
-test-suite homework-1
-  type:                exitcode-stdio-1.0
-  main-is:             Main.hs
-  build-depends:       base        >= 4.9 && < 5
-                     , cis194
-  other-modules:       HW01, HW01Tests
-  hs-source-dirs:      src/hw01
-  default-language:    Haskell2010
+    -- LANGUAGE extensions used by modules in this package.
+    -- other-extensions:
+    build-depends:    base ^>=4.14.3.0
+    hs-source-dirs:   hw1
+    default-language: Haskell2010
 
-
-test-suite homework-2
-  type:                exitcode-stdio-1.0
-  main-is:             Main.hs
-  build-depends:       base        >= 4.9 && < 5
-                     , cis194
-  other-modules:       HW02, HW02Tests
-  hs-source-dirs:      src/hw02
-  default-language:    Haskell2010
-
-test-suite homework-3
-  type:                exitcode-stdio-1.0
-  main-is:             HW03Tests.hs
-  build-depends:       base        >= 4.9 && < 5
-                     , HUnit       >= 1.5 && < 2
-                     , cis194
-  other-modules:       HW03, Fun
-  hs-source-dirs:      src/hw03
-  default-language:    Haskell2010
-
-test-suite homework-4
-  type:                exitcode-stdio-1.0
-  main-is:             HW04Tests.hs
-  build-depends:       base        >= 4.9 && < 5
-                     , HUnit       >= 1.5 && < 2
-                     , cis194
-  other-modules:       HW04
-  hs-source-dirs:      src/hw04
-  default-language:    Haskell2010
-
-test-suite homework-5
-  type:                exitcode-stdio-1.0
-  main-is:             HW05Tests.hs
-  build-depends:       base        >= 4.9  && < 5
-                     , HUnit       >= 1.5  && < 2
-                     , aeson       >= 1    && < 2
-                     , bytestring  >= 0.10 && < 1
-                     , containers  >= 0.5  && < 1
-                     , cis194
-  other-modules:       HW05, Parser
-  hs-source-dirs:      src/hw05
-  default-language:    Haskell2010
-
-test-suite homework-6
-  type:                exitcode-stdio-1.0
-  main-is:             HW06Tests.hs
-  build-depends:       base        >= 4.9  && < 5
-                     , HUnit       >= 1.5  && < 2
-                     , cis194
-  other-modules:       HW06
-  hs-source-dirs:      src/hw06
-  default-language:    Haskell2010
+test-suite hw1
+    type:             exitcode-stdio-1.0
+    main-is:          BasicsTest.hs
+    other-modules:
+        Basics
+    build-depends:
+        base ^>=4.14.3.0,
+        HUnit >=1.6
+    hs-source-dirs:   hw1
+    default-language: Haskell2010
